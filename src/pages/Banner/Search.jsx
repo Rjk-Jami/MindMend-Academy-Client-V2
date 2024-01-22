@@ -1,14 +1,25 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, } from 'react';
 import { FaSearch } from "react-icons/fa";
 import CollegeCardDesign from '../../Hooks/CollegeCardDesign';
+//swiper 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+// import { useSearchContext } from '../../providers/SearchProvider';
 
 const Search = () => {
     const searchInputRef = useRef(null);
     const [searchResults, setSearchResults] = useState([]);
-    const [isActive, setIsActive] = useState(false);
     const [loading, setLoading] = useState(false)
-
+    const [noResultsFound, setNoResultsFound] = useState(false);
+    // const {searchResults,
+    //     setSearchResults,
+    //     loading,
+    //     setLoading,
+    //     noResultsFound,
+    //     setNoResultsFound}= useSearchContext()
     useEffect(() => {
         const handleKeyPress = (event) => {
             // Check if Ctrl (or Command on Mac) + K is pressed
@@ -27,13 +38,15 @@ const Search = () => {
             window.removeEventListener('keydown', handleKeyPress);
         };
     }, []);
-    const deleteNoFound =()=>{
-        setIsActive(false);
-
+    const deleteNoFound = () => {
+        setNoResultsFound(false);
     }
+
     const handleSearch = async () => {
+
         const searchLetter = searchInputRef.current.value;
         if (searchLetter) {
+            setNoResultsFound(true)
             setLoading(true)
 
             try {
@@ -45,22 +58,29 @@ const Search = () => {
                 console.error(error);
 
             }
-            setLoading(false)
+
 
 
         }
-        setIsActive(true);
+
+        setLoading(false)
+        setNoResultsFound(searchResults.length === 0);
 
     };
+    const searchDone = () => {
+        setSearchResults([])
+        setNoResultsFound(false);
+    }
+
     console.log(searchResults)
     return (
         <div className=' '>
 
 
             <div className="mx-3">
-                <div className="join border-0 w-full">
+                <div className="join border-0 w-2/4">
                     <div className=" flex relative w-full">
-                        <input type="text" ref={searchInputRef} className="w-full input  input-bordered border-black focus:outline-none  join-item bg-transparent " placeholder="Search colleges" />
+                        <input type="text" ref={searchInputRef} className="w-full input  input-bordered border-black focus:outline-none  join-item bg-transparent " placeholder="Search University" />
                         <div className=" hidden  absolute lg:flex items-center gap-1 inset-y-0 right-0  text-xs opacity-40 mx-2">
                             <kbd className="kbd">ctrl</kbd>
                             <p>+</p>
@@ -73,6 +93,18 @@ const Search = () => {
                 </div>
 
             </div>
+            {
+                loading ? ""
+                    : <>{(searchResults < 1 && noResultsFound) &&
+                        <div className='flex  me-3' >
+                            <div role="alert" className="alert bg-rose-400  bg-opacity-60 flex  ">
+
+                                <button onClick={deleteNoFound} className="btn btn-circle btn-xs flex justify-center items-center btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" className=" stroke-current shrink-0 h-6 w-" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+                                <span>No result found!</span>
+                            </div>
+                        </div>
+                    }</>
+            }
 
 
             {
@@ -83,28 +115,48 @@ const Search = () => {
                         {(searchResults && searchResults.length !== 0) &&
 
                             <>
-                                <div role="alert" className="alert alert-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <div role="alert" className="alert bg-green-400 bg-opacity-60 flex">
+                                    <button onClick={searchDone} className="btn btn-circle btn-xs flex justify-center items-center btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
                                     <span>Search Result For:{searchInputRef.current.value}</span>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 bg-slate-400 bg-opacity-25 my-6">
+                                {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols- bg-slate-400 bg-opacity-25 my-6">
                                     {
                                         searchResults.map((college, i) => <CollegeCardDesign college={college} key={i} ></CollegeCardDesign>)
 
                                     }
+                                </div> */}
+                                <div className="w-2/3 mx-auto">
+                                    <Swiper
+                                        slidesPerView={1}
+                                        spaceBetween={0}
+                                        pagination={{
+                                            clickable: true,
+                                        }}
+                                        modules={[Pagination]}
+                                        className="mySwiper"
+                                        breakpoints={{
+                                            
+                                            // when window width is <= 768px
+                                            768: {
+                                                slidesPerView: 3,
+                                                spaceBetween: 10,
+                                            },
+                                            // more breakpoints as needed
+                                        }}
+                                    >
+                                        {
+                                            searchResults.map((college, i) => <SwiperSlide className='mx-auto' key={i = i + 1}> <CollegeCardDesign college={college} key={i} ></CollegeCardDesign></SwiperSlide>)
+                                        }
+
+                                    </Swiper>
                                 </div>
+
                             </>}
-                        
+
                     </>
+
             }
-            {
-                           ( searchResults.length === 0 || searchResults===null) && <div className={`my-element ${isActive ? '' : 'hidden'}, mt-4 w-1/3`}>
-                                <div role="alert" className="alert alert-error">
-                                    <button onClick={deleteNoFound} className={` ${isActive ? '' : 'hidden'}btn btn-circle btn-xs flex justify-center items-center btn-ghost`}><svg xmlns="http://www.w3.org/2000/svg" className=" stroke-current shrink-0 h-6 w-" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
-                                    <span>No result found!</span>
-                                </div>
-                            </div>
-                        }
+
         </div>
     );
 };

@@ -32,7 +32,7 @@ const Banner = () => {
         </div>
         </SwiperSlide>
         <SwiperSlide> 
-        <div className='  flex gap-1 flex-col md:flex-row-reverse justify-center items-center container mx-auto'>
+        <div className='  flex gap-1 flex-col md:flex-row  justify-center items-center container mx-auto'>
                 <div className=" w-1/2">
                 <img className=' w-fit  mx-auto' src="https://i.ibb.co/Vggpj7h/landing.png" alt="" />
                 </div>

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 const CollegeCardDesign = ({college}) => {
 
     return (
-        <div className="card card-compact w-96 bg-slate-900 shadow-xl">
-                        <figure><img className='h-80' src={college.image} alt="Shoes" /></figure>
+        <div className="card card-compact w-72 bg-slate-900 shadow-xl">
+                        <figure className="mt-11"><img className='h-40 w-48 rounded-2xl' src={college.image} alt="Shoes" /></figure>
                         <div className="card-body">
                             <h2 className=" text-center text-2xl font-semibold m-0 p-0 text-white">{college.name}</h2>
                             <div className=" text-center  ">
