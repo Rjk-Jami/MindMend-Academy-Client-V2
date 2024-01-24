@@ -7,19 +7,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-// import { useSearchContext } from '../../providers/SearchProvider';
 
 const Search = () => {
     const searchInputRef = useRef(null);
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false)
     const [noResultsFound, setNoResultsFound] = useState(false);
-    // const {searchResults,
-    //     setSearchResults,
-    //     loading,
-    //     setLoading,
-    //     noResultsFound,
-    //     setNoResultsFound}= useSearchContext()
+ 
     useEffect(() => {
         const handleKeyPress = (event) => {
             // Check if Ctrl (or Command on Mac) + K is pressed
@@ -78,7 +72,7 @@ const Search = () => {
 
 
             <div className="mx-3">
-                <div className="join border-0 w-2/4">
+                <div className="join border-0 w-full md:w-2/4">
                     <div className=" flex relative w-full">
                         <input type="text" ref={searchInputRef} className="w-full input  input-bordered border-black focus:outline-none  join-item bg-transparent " placeholder="Search University" />
                         <div className=" hidden  absolute lg:flex items-center gap-1 inset-y-0 right-0  text-xs opacity-40 mx-2">
@@ -115,7 +109,7 @@ const Search = () => {
                         {(searchResults && searchResults.length !== 0) &&
 
                             <>
-                                <div role="alert" className="alert bg-green-400 bg-opacity-60 flex">
+                                <div role="alert" className="alert w-auto bg-green-400 bg-opacity-60 flex mt-2 mx-3">
                                     <button onClick={searchDone} className="btn btn-circle btn-xs flex justify-center items-center btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
                                     <span>Search Result For:{searchInputRef.current.value}</span>
                                 </div>
@@ -125,10 +119,13 @@ const Search = () => {
 
                                     }
                                 </div> */}
-                                <div className="w-2/3 mx-auto">
+                                <div className="m-3 ">
+                                    <p>Search Results:</p>
+                                </div>
+                                <div className="w-2/3 mx-auto mt-5">
                                     <Swiper
                                         slidesPerView={1}
-                                        spaceBetween={0}
+                                        spaceBetween={5}
                                         pagination={{
                                             clickable: true,
                                         }}
@@ -138,6 +135,10 @@ const Search = () => {
                                             
                                             // when window width is <= 768px
                                             768: {
+                                                slidesPerView: 2,
+                                                spaceBetween: 10,
+                                            },
+                                            1024: {
                                                 slidesPerView: 3,
                                                 spaceBetween: 10,
                                             },

@@ -11,8 +11,8 @@ const Main = () => {
        bg-sky-200 h-32  lg:h-96 lg:rotate-12 py-60 lg:p-80 md:rounded-3xl  -top-52">
 
                 </div> */}
-                <div className=" container  absolute  bg-opacity-20 w-full   
-       bg-sky-300 h-32  lg:h-96 lg:-rotate-12 py-60 lg:p-80 md:rounded-3xl  -top-52">
+                <div className=" container  absolute  bg-opacity-40 w-full   
+       bg-sky-300 h-32 md:h-56  lg:h-96 lg:-rotate-12 py-60 md:py-72 lg:p-80 md:rounded-3xl  -top-52">
 
                 </div>
                 
