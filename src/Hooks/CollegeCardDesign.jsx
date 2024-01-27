@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const CollegeCardDesign = ({college}) => {
 
     return (
-        <div className="card card-compact w-full bg-sky-300 bg-opacity-20 shadow-xl">
-                        <figure className="mt-11"><img className='h-40 w-48 rounded-2xl' src={college.image} alt="Shoes" /></figure>
+        <div className="card card-compact w-72  bg-sky-300 bg-opacity-20 shadow-xl">
+                        <figure className="mt-11"><img className='h-44 w-52 rounded-2xl' src={college.image} alt="Shoes" /></figure>
                         <div className="card-body">
-                            <h2 className=" text-center text-xl font-semibold m-0 p-0 text-black">{college.name}</h2>
+                            <h2 className="  text-center text-xl font-semibold m-0 p-0 text-black">{college.name}</h2>
                             <div className=" text-center  ">
                                 <p className='text-lg font-medium'>Admission Dates</p>
                                 <p className='font-bold font-serif text-sm'>{college.admissionDates[0]} to {college.admissionDates[1]}</p>
